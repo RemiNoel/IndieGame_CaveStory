@@ -1,12 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
+
 #include <string>
 #include <algorithm>
-#include "Sprite.h"
+#include "AnimatedSprite.h"
 
 /*
-	Game class
-	This class holds all the information for our main game loop.
+*	Game class
+*	This class holds all the information for our main game loop.
 */
 
 
@@ -22,7 +23,7 @@ private:
 	void draw(Graphics &graphics);
 	void update(float elapsedTime);
 
-	Sprite _player;
+	AnimatedSprite _player;
 };
 
 #endif

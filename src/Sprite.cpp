@@ -1,15 +1,17 @@
 #include "Sprite.h"
 #include "Globals.h"
+
+
 /*
-	Game class
-	This class holds all the information the sprites used for the chactacter.
+*	Game class
+*	This class holds all the information the sprites used for the character.
 */
 
 Sprite::Sprite(){
 
 }
 Sprite::Sprite(Graphics &graphics, const std::string &filePath, int sourceX, int sourceY, int width, int height,
-	float posX, float posY) : 
+	float posX, float posY) :
 		_x(posX),
 		_y(posY)
 {
