@@ -61,9 +61,6 @@ void AnimatedSprite::update(int elapsedTime){
 			this->_frameIndex++;
 		}
 		else{
-			if (this->_currentAnimationOnce == true){
-				this->setVisible(false);
-			}
 			this->_frameIndex = 0;
 			this->animationDone(this->_currentAnimation);
 		}
@@ -81,16 +78,4 @@ void AnimatedSprite::draw(Graphics &graphics, int x, int y){
 		SDL_Rect sourceRect = this->_animations[this->_currentAnimation][this->_frameIndex];
 		graphics.blitSurface(this->_spriteSheet, &sourceRect, &destinationRectangle);
 	}
-}
-
-void AnimatedSprite::animationDone(std::string currentAnimation){
-
-}
-
-void AnimatedSprite::setupAnimation(){
-	this->addAnimation(3, 0, 0, "RunLeft", 16, 16, Vector2(0, 0));
-	this->addAnimation(3, 0, 16, "RunRight", 16, 16, Vector2(0, 0));
-	this->addAnimation(3, 0, 32, "RunUp", 16, 16, Vector2(0, 0));
-	this->addAnimation(3, 0, 48, "RunDown", 16, 16, Vector2(0, 0));
-
 }
