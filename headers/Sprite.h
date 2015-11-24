@@ -4,7 +4,10 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
+
 #include "Graphics.h"
+#include "Rectangle.h"
+#include "Globals.h"
 
 class Graphics;
 
@@ -24,9 +27,14 @@ public:
 	virtual void update();
 	void draw(Graphics &graphics, int x, int y);
 
+	const Rectangle getBoundingBox() const;
+	const sides::Side getCollisionSide(Rectangle &other) const;
+
 protected:
 	SDL_Rect _sourceRect;
 	SDL_Texture* _spriteSheet; 
+
+	Rectangle _boundingBox;
 
 	float _x, _y;
 
