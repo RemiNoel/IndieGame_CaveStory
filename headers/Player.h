@@ -3,6 +3,7 @@
 
 #include "Globals.h"
 #include "AnimatedSprite.h"
+#include "Slope.h"
 
 /*	Player class
 *	Holds the logic for Player Quote
@@ -31,6 +32,11 @@ public:
 	*/
 	void stopMoving();
 
+	/*	void jump
+	*	Starts jumping
+	*/
+
+	void jump();
 
 	virtual void animationDone(std::string currentAnimation);
 	virtual void setupAnimations();
@@ -39,6 +45,8 @@ public:
 	*	Handles collisions with ALL tiles the player is colliding with
 	*/
 	void handleTileCollisions(std::vector<Rectangle> &others);
+
+	void handleSlopeCollisions(std::vector<Slope> &others);
 
 	const float getX() const;
 	const float getY() const;
