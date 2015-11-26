@@ -15,12 +15,14 @@ public:
 	void update(int elapsedTime);
 	void draw(Graphics &graphics);
 	
+protected:
+	Vector2 _size;
+	Vector2 _position;
+	SDL_Texture* _tileset;
+	Vector2 _tilesetPosition;
 
 private:
-	SDL_Texture* _tileset;
-	Vector2 _size;
-	Vector2 _tilesetPosition;
-	Vector2 _position;
+	
 };
 
 #endif

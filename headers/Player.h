@@ -32,10 +32,29 @@ public:
 	*/
 	void stopMoving();
 
-	/*	void jump
-	*	Starts jumping
+	/*	void lookUp
+	*	The player look up
 	*/
+	void lookUp();
 
+	/*	void stopLookingUp
+	*	the player stops looking up
+	*/
+	void stopLookingUp();
+
+	/*	void lookDown
+	*	The player look down OR interacts(looks around)
+	*/
+	void lookDown();
+
+	/*	void stopLookingDown
+	*	the player stops looking down
+	*/
+	void stopLookingDown();
+
+	/*	void jump
+	*	Makes the character(Quote) jump
+	*/
 	void jump();
 
 	virtual void animationDone(std::string currentAnimation);
@@ -57,6 +76,9 @@ private:
 	Direction _facing;
 
 	bool _grounded;
+
+	bool _lookingUp;
+	bool _lookingDown;
 };
 
 #endif
