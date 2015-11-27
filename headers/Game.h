@@ -1,15 +1,14 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <algorithm>
 #include "Player.h"
 #include "Level.h"
-
-class Graphics;
+#include "Hud.h"
+#include "Graphics.h"
 
 /*
 *	Game class
-*	This class holds all the information for our main game loop.
+*	This class holds all the information for the game.
 */
 
 class Game{
@@ -23,7 +22,13 @@ private:
 	void update(float elapsedTime);
 
 	Player _player;
+
 	Level _level;
+
+	HUD _hud;
+
+	Graphics _graphics;
+
 };
 
 #endif

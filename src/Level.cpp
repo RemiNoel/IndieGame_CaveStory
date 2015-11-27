@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "tinyxml2.h"
 #include "Utils.h"
+
 #include <SDL.h>
 
 #include <sstream>
@@ -15,9 +16,8 @@ Level::Level(){
 
 }
 
-Level::Level(std::string mapName, Vector2 spawnPoint, Graphics &graphics) :
+Level::Level(std::string mapName, Graphics &graphics) :
 	_mapName(mapName),
-	_spawnPoint(spawnPoint),
 	_size(Vector2(0, 0))
 {
 	this->loadMap(mapName, graphics);
@@ -210,7 +210,7 @@ void Level::loadMap(std::string mapName, Graphics& graphics){
 				if (pObject != NULL){
 					while (pObject){
 						float x, y, width, height;
-						
+
 						x = pObject->FloatAttribute("x");
 						y = pObject->FloatAttribute("y");
 						width = pObject->FloatAttribute("width");
@@ -244,7 +244,7 @@ void Level::loadMap(std::string mapName, Graphics& graphics){
 							std::stringstream ss;
 							ss << pointString;
 							Utils::split(ss.str(), pairs, ' ');
-							
+
 							//Now we have each of the pairs. Loop through the list of pairs
 							// and split them into Vector2s and then store them in our points vector
 							for (int i = 0; i < pairs.size(); i++){
@@ -257,9 +257,9 @@ void Level::loadMap(std::string mapName, Graphics& graphics){
 						for (int i = 0; i < points.size(); i += 2){
 							this->_slopes.push_back(Slope(
 								Vector2((p1.x + points.at(i < 2 ? i : i - 1).x) * globals::SPRITE_SCALE,
-										(p1.y + points.at(i < 2 ? i : i - 1).y) * globals::SPRITE_SCALE),
+								(p1.y + points.at(i < 2 ? i : i - 1).y) * globals::SPRITE_SCALE),
 								Vector2((p1.x + points.at(i < 2 ? i + 1 : i).x) * globals::SPRITE_SCALE,
-										(p1.y + points.at(i < 2 ? i + 1 : i).y) * globals::SPRITE_SCALE)
+								(p1.y + points.at(i < 2 ? i + 1 : i).y) * globals::SPRITE_SCALE)
 								));
 						}
 
@@ -286,7 +286,43 @@ void Level::loadMap(std::string mapName, Graphics& graphics){
 					}
 				}
 			}
+			else if (ss.str() == "Doors") {
+				XMLElement* pObject = pObjectGroup->FirstChildElement("object");
+				if (pObject != NULL) {
+					while (pObject) {
+						float x = pObject->FloatAttribute("x");
+						float y = pObject->FloatAttribute("y");
+						float w = pObject->FloatAttribute("width");
+						float h = pObject->FloatAttribute("height");
+						Rectangle rect = Rectangle(x, y, w, h);
 
+						XMLElement* pProperties = pObject->FirstChildElement("properties");
+						if (pProperties != NULL) {
+							while (pProperties) {
+								XMLElement* pProperty = pProperties->FirstChildElement("property");
+								if (pProperty != NULL) {
+									while (pProperty) {
+										const char* name = pProperty->Attribute("name");
+										std::stringstream ss;
+										ss << name;
+										if (ss.str() == "Destination") {
+											const char* value = pProperty->Attribute("value");
+											std::stringstream ss2;
+											ss2 << value;
+											Door door = Door(rect, ss2.str());
+											this->_doorList.push_back(door);
+										}
+										pProperty = pProperty->NextSiblingElement("property");
+									}
+								}
+								pProperties = pProperties->NextSiblingElement("properties");
+							}
+						}
+
+						pObject = pObject->NextSiblingElement("object");
+					}
+				}
+			}
 			pObjectGroup = pObjectGroup->NextSiblingElement("objectgroup");
 		}
 	}
@@ -323,6 +359,16 @@ std::vector<Slope> Level::checkSlopeCollisions(const Rectangle &other){
 	for (int i = 0; i < this->_slopes.size(); i++){
 		if (this->_slopes.at(i).collidesWith(other)){
 			others.push_back(this->_slopes.at(i));
+		}
+	}
+	return others;
+}
+
+std::vector<Door> Level::checkDoorCollisions(const Rectangle &other){
+	std::vector<Door> others;
+	for (int i = 0; i < this->_doorList.size(); i++){
+		if (this->_doorList.at(i).collidesWith(other)){
+			others.push_back(this->_doorList.at(i));
 		}
 	}
 	return others;
