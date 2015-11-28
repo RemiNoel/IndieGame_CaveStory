@@ -159,8 +159,7 @@ void Player::handleTileCollisions(std::vector<Rectangle> &others){
 	}
 }
 
-//void handleSlopeCollisions
-//Handles collisions with ALL slopes the player is colliding with
+
 void Player::handleSlopeCollisions(std::vector<Slope> &others){
 	for (int i = 0; i < others.size(); i++){
 		//Calculate where on the slope the player's bottom center is touching 
@@ -196,6 +195,15 @@ void Player::handleDoorCollision(std::vector<Door> &others, Level &level, Graphi
 	}
 }
 
+void Player::handleEnemyCollisions(std::vector<Enemy*> &others){
+	for (int i = 0; i < others.size(); i++){
+		others.at(i)->touchPlayer(this);
+	}
+}
+
+void Player::gainHealth(int amount){
+	this->_currentHealth += amount;
+}
 
 void Player::update(float elapsedTime){
 	//Apply gravity

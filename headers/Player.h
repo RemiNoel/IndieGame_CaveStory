@@ -6,6 +6,7 @@
 #include "Slope.h"
 #include "Door.h"
 #include "Level.h"
+#include "Enemy.h"
 
 /*	Player class
 *	Holds the logic for Player Quote
@@ -67,15 +68,22 @@ public:
 	*/
 	void handleTileCollisions(std::vector<Rectangle> &others);
 
+	/*	void handleSlopeCollisions
+	*	Handles collisions with ALL slopes the player is colliding with
+	*/
 	void handleSlopeCollisions(std::vector<Slope> &others);
 
 	void handleDoorCollision(std::vector<Door> &others, Level &level, Graphics &graphics);
+
+	void handleEnemyCollisions(std::vector<Enemy*> &others);
 
 	const float getX() const;
 	const float getY() const;
 
 	const inline int getMaxHealth() const { return this->_maxHealth; }
 	const inline int getCurrentHealth() const { return this->_currentHealth; }
+
+	void gainHealth(int amount);
 
 private:
 	float _dx, _dy;
